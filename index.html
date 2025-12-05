@@ -38,23 +38,33 @@
     <canvas id="pinkboard" width="1707" height="868"></canvas>
     <canvas id="heart" width="1000" height="600"></canvas>
 
-    <audio id="audio" src="https://music.163.com/song/media/outer/url?id=27130317.mp3" preload="auto"
-        loop="loop"></audio>
+    <audio id="audio" src="./music/bcMusic.mp3" preload="auto" autoplay playsinline loop="loop"></audio>
     <script>
         var shouci = true;
-        console.log(shouci);
+        function tryPlay() {
+            if (!window.audio) return;
+            var p = audio.play();
+            if (p && typeof p.then === 'function') {
+                p.catch(function(){})
+            }
+        }
         function bodyPlayMusic() {
             if (shouci) {
                 shouci = false;
-                audio.play();
-                console.log(shouci);
+                tryPlay();
             }
         };
+        document.addEventListener('DOMContentLoaded', function(){
+            tryPlay();
+        });
+        document.addEventListener('visibilitychange', function(){
+            if (!document.hidden) { tryPlay(); }
+        });
     </script>
     <script src="./js/lxheart.js"></script>
     <script src="./js/filltext.js"></script>
     <script>
-        var texts = ['dear 秋', '💗i love you💗', '❤️'];
+        var texts = ['秋', '💗i love you💗', '❤️'];
 
         var params = new URLSearchParams(window.location.search);
         var text = params.get('text');
@@ -62,7 +72,7 @@
         if (text) {
             texts = text.split(',')
         }
-        document.getElementById('contents').innerHTML = word || '秋秋驾到，统统闪开';
+        document.getElementById('contents').innerHTML = word || '陪伴-是最长情的告白！';
 
         renderLxHeart(document.getElementById('heart'), '#ec9bad');
         fillText(document.getElementById('pinkboard'), texts)
