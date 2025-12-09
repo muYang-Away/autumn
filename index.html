@@ -32,13 +32,18 @@
 </head>
 
 <body onclick="bodyPlayMusic()">
+    <div id="bg-rotator">
+        <div class="bg-slide" id="bg1"></div>
+        <div class="bg-slide" id="bg2"></div>
+        <div class="bg-slide" id="bg3"></div>
+    </div>
 
 
     <div class="type_words" id="contents">给你的爱心</div>
     <canvas id="pinkboard" width="1707" height="868"></canvas>
     <canvas id="heart" width="1000" height="600"></canvas>
 
-    <audio id="audio" src="./music/bcMusic.mp3" preload="auto" autoplay playsinline loop="loop"></audio>
+    <sic.mp3" preload="auto" autoplay playsinline loop="loop"></audio>
     <script>
         var shouci = true;
         function tryPlay() {
@@ -64,6 +69,27 @@
     <script src="./js/lxheart.js"></script>
     <script src="./js/filltext.js"></script>
     <script>
+        (function(){
+            var imgs = ['img/autumn.jpg','img/bg.jpg','img/bg2.jpg'];
+            var slides = [document.getElementById('bg1'), document.getElementById('bg2'), document.getElementById('bg3')];
+            imgs.forEach(function(src){ var im = new Image(); im.src = src; });
+            var idx = 0;
+            var active = 0;
+            function setSlide(el, src){ el.style.backgroundImage = "url('"+src+"')"; }
+            setSlide(slides[0], imgs[0]);
+            slides[0].classList.add('active');
+            setSlide(slides[1], imgs[1 % imgs.length]);
+            function tick(){
+                var nextIdx = (idx + 1) % imgs.length;
+                var nextSlide = slides[1 - active];
+                setSlide(nextSlide, imgs[nextIdx]);
+                nextSlide.classList.add('active');
+                slides[active].classList.remove('active');
+                idx = nextIdx;
+                active = 1 - active;
+            }
+            setInterval(tick, 5000);
+        })();
         var texts = ['秋', '💗i love you💗', '❤️'];
 
         var params = new URLSearchParams(window.location.search);
@@ -72,7 +98,7 @@
         if (text) {
             texts = text.split(',')
         }
-        document.getElementById('contents').innerHTML = word || '陪伴-是最长情的告白！';
+        document.getElementById('contents').innerHTML = word || '就像那场未一起观看的电影，你是朱迪，但我好像不是尼克，愿你幸福！';
 
         renderLxHeart(document.getElementById('heart'), '#ec9bad');
         fillText(document.getElementById('pinkboard'), texts)

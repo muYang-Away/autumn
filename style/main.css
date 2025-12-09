@@ -36,8 +36,8 @@ body::before {
   left: 0;
   right: 0;
   bottom: 0;
-  background: url("../img/bg2.jpg") center / cover no-repeat;
-  opacity: 0.3;
+  background: none;
+  opacity: 0;
   pointer-events: none;
   z-index: 0;
 }
@@ -154,4 +154,29 @@ a:hover {
   .namebox {
     zoom: 0.5;
   }
+}
+
+#bg-rotator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.bg-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+}
+.bg-slide.active {
+  opacity: 0.2;
 }
